@@ -39,5 +39,41 @@ RSpec.describe PostsController, type: :controller do
 						expect(response).to render_template :new
 					end
 				end
+
 				end
+				describe "GET #edit" do
+					it "edits the post" do
+					post = FactoryGirl.create(:post)
+				get :edit, id: post.id
+				expect(response).to render_template :edit
+			end
+                end
+                describe "PUT #update" do
+                     context "when attributes are valid" do
+                     	it "updates the post" do
+                     		put :update, id: post.id, post: FactoryGirl.attributes_for(:post, title: 'New title', author: 'shrijana')
+                     		post.reload
+                     		expect(post.title).to eq("New title")
+                     		expect(post.author).to eq("shrijana")
+                     	end
+                     	it "redirects to root_path" do
+                     		put :update, id: post.id, post: FactoryGirl.attributes_for(:post, title: 'New title', author: 'shrijana')
+                     		expect(response).to redirect_to root_path
+                     	end
+                     end
+                     context "when attributes are invalid" do
+                     	it "doesn't updates the post" do
+                     		put :update, id: post.id, post: FactoryGirl.attributes_for(:post, title: 'New title', author: 'shrijana', content: 'Hello')
+                     		post.reload
+                     		expect(post.title).to_not eq("New title")
+                     		expect(post.author).to_not eq("shrijana")
+                     	end
+                     it "renders the edit template" do
+                     	put :update, id: post.id, post: FactoryGirl.attributes_for(:invalid_post)
+                     	expect(response).to render_template :edit
+                     end
+					end
+                 end
+               
+
 			end
