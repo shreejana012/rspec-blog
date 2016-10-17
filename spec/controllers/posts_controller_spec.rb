@@ -50,6 +50,7 @@ RSpec.describe PostsController, type: :controller do
                 end
                 describe "PUT #update" do
                      context "when attributes are valid" do
+                     	post = FactoryGirl.create(:post)
                      	it "updates the post" do
                      		put :update, id: post.id, post: FactoryGirl.attributes_for(:post, title: 'New title', author: 'shrijana')
                      		post.reload
@@ -62,6 +63,7 @@ RSpec.describe PostsController, type: :controller do
                      	end
                      end
                      context "when attributes are invalid" do
+                     	post = FactoryGirl.create(:post)
                      	it "doesn't updates the post" do
                      		put :update, id: post.id, post: FactoryGirl.attributes_for(:post, title: 'New title', author: 'shrijana', content: 'Hello')
                      		post.reload
@@ -74,6 +76,5 @@ RSpec.describe PostsController, type: :controller do
                      end
 					end
                  end
-               
 
 			end
