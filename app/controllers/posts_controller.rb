@@ -16,10 +16,7 @@ class PostsController < ApplicationController
     		render 'new'
   			end
 	end
-	private
-	def post_params
-		params.require(:post).permit(:title, :author, :content)
-	end
+	
 	def edit
 		@post = Post.find(params[:id])
 	end
@@ -33,5 +30,12 @@ class PostsController < ApplicationController
 		end
 	end
 	def destroy
+		@post = Post.find(params[:id])
+		@post.destroy
+		redirect_to root_path
+	end
+	private
+	def post_params
+		params.require(:post).permit(:title, :author, :content)
 	end
 end
